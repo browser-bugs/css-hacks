@@ -1,0 +1,120 @@
+/*!
+This file is only available under the MIT License, as it's a derivative work of Bootstrap.
+This file is not available under a Creative Commons license.
+*/
+/*!
+ * Based on:
+ * Bootstrap v4.0.0-alpha.2 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+/* Typography and spacing */
+h1, h2, footer, .table {
+  font-family: Helvetica,Arial,sans-serif;
+}
+h1, h2 {
+  margin-top: 0;
+}
+h2 {
+  margin-bottom: 0.5rem;
+}
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+footer {
+  margin-top: 2rem;
+}
+a {
+  color: #0275d8;
+}
+a:focus, a:hover {
+  color: #014c8c;
+}
+code, pre {
+  font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+  background-color: #f7f7f9;
+}
+code {
+  color: #bd4147;
+  font-size: 90%;
+  padding: .2rem .4rem;
+  border-radius: .25rem;
+}
+pre {
+  display: inline-block;
+  padding: 0.75rem;
+  margin-top: 0;
+}
+.text-center {
+  text-align: center;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+
+/* Tables */
+.table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+.table thead th {
+  color: #55595c;
+  background-color: #eceeef;
+  vertical-align: bottom;
+  border-bottom: 2px solid #55595c;
+}
+.table tbody td {
+  text-align: center;
+}
+.table-bordered {
+  border: 1px solid #55595c;
+}
+.table-bordered td,
+.table-bordered th {
+  border: 1px solid #55595c;
+}
+.table-bordered thead th,
+.table-bordered thead td {
+  border-bottom-width: 2px;
+}
+
+.scroll-x {
+  min-height: .01%;
+  overflow-x: auto;
+}
+/* END Bootstrap-based styles */
+
+.twitter {
+  text-decoration: none;
+}
+
+/* Test results */
+.yes {
+  background-color: limegreen;
+}
+.no {
+  background-color: red;
+}
+.unknown {
+  background-color: #fdee00;
+}
