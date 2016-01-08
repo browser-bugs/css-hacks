@@ -114,6 +114,10 @@ pre {
   text-decoration: none;
 }
 
+.note:target {
+  outline: solid red 2px;
+}
+
 /* Test results */
 .yes {
   background-color: limegreen;

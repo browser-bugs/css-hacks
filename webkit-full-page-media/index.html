@@ -64,6 +64,7 @@ _::-webkit-full-page-media, .your-selector-here {
       <p><code>::-webkit-full-page-media</code> is a proprietary, WebKit-specific <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements">pseudo-element</a>. Its name suggests it's probably related to full-screen video. When browsers see a CSS selector with a pseudo-element they don't recognize, they drop the entire CSS rule associated with it. As of 2016-01-08, although Chrome uses Blink, which was forked from WebKit, Chrome doesn't implement the <code>::-webkit-full-page-media</code> pseudo-element. Although MS Edge and Firefox have been known to implement WebKit-prefixed features for compatibility reasons, as of 2016-01-08 neither of them has implemented this pseudo-element either. Thus, only WebKit-based Safari considers the selector valid and continues parsing it.</p>
 
       <h2>Affected browsers</h2>
+      <p>Check out the links for corroborating screenshots.</p>
       <div class="scroll-x">
         <table class="table table-bordered">
           <caption>Test results</caption>
@@ -83,7 +84,7 @@ _::-webkit-full-page-media, .your-selector-here {
               </th>
               <th>
                 <img src="../browser-imgs/edge_64x64.png" /><br />
-                MS Edge
+                MS Edge<a href="#edgenote"><sup>1</sup></a>
               </th>
               <th>
                 <img src="../browser-imgs/ie_64x64.png" /><br />
@@ -155,7 +156,7 @@ _::-webkit-full-page-media, .your-selector-here {
           </tbody>
         </table>
       </div>
-      <p>Check out the links for corroborating screenshots.</p>
+      <small class="note" id="edgenote">Note 1: MS Edge versions refer to the EdgeHTML rendering engine version, not the Edge app version shown in Edge's "About" screen. <a href="https://github.com/Fyrd/caniuse/issues/1928">See this <em>Can I Use</em> issue.</a></small>
 
       <footer class="text-center">
         <a href="http://browser-bugs.github.io/css-hacks/">CSS Hacks Research</a> &middot;
