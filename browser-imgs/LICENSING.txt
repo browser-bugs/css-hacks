@@ -1,0 +1,4 @@
+The logos and trademarks in this directory are the property of their respective owners.
+They are utilized in this website under FAIR USE, solely for the purposes of identifying the web browser products in question.
+They are NOT licensed under any Creative Commons or open source license.
+The image files in this directory were obtained from https://github.com/alrra/browser-logos
