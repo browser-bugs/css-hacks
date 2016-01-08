@@ -49,6 +49,9 @@ pre {
 .text-center {
   text-align: center;
 }
+.text-left {
+  text-align: left;
+}
 
 .container {
   padding-right: 15px;
