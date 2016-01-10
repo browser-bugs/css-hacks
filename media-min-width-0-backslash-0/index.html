@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>@media (min-width: 0\0) hack &ndash; CSS Hacks Research</title>
+    <link href="../microstrap.css" rel="stylesheet" />
+    <style>
+.testbed {
+  height: 150px;
+  width: 150px;
+  line-height: 150px;/* vertical centering trick */
+  white-space: nowrap;
+  font-family: Helvetica,Arial,sans-serif;
+  font-weight: bold;
+  font-size: x-large;
+  position: relative;/* to make abspos child work properly; blame CSS logic */
+}
+.liquid {
+  height: 100%;
+  width: 100%;
+}
+.guineapig {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+    </style>
+    <!-- Operative part of the test: -->
+    <style>
+@media (min-width:0\0) {
+  .guineapig {
+    display: block;
+  }
+}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>The <code>@media (min-width: 0\0)</code> hack</h1>
+      <p>Last updated 2016-01-10.</p>
+
+      <h2>The hack</h2>
+      <div class="scroll-x">
+<pre>
+@media (min-width: 0\0) {
+  .your-selector-here {
+    /* your declarations here */
+  }  
+}
+</pre>
+      </div>
+      <p>
+        Sources: <a href="http://browserhacks.com/#hack-a60b03e301a67f76a5a22221c739dc64">Browserhacks.com</a>, <a href="http://www.paulirish.com/2009/browser-specific-css-hacks/">Browser CSS Hacks</a> by Paul Irish
+      </p>
+
+      <h2>Live testcase</h2>
+      <div class="testbed text-center">
+        <div class="yes liquid guineapig">Affected</div>
+        <div class="no liquid">Unaffected</div>
+      </div>
+      <p>If the square above shows the word "Affected", then your browser supports this hack.</p>
+
+      <h2>How it works</h2>
+      <p>
+        This hack exploits a bug in the browser's parsing of CSS media queries.
+        <a href="https://drafts.csswg.org/css-syntax/#escaping">Backslash (<code>\</code>) is used as an escape character in CSS.</a> So <code>\0</code> is an escape sequence which notionally encodes the <a href="https://en.wikipedia.org/wiki/Null_character">null character (&#x2400;).</a>
+        However, presumably to prevent bugs related to potential use of <a href="https://en.wikipedia.org/wiki/Null-terminated_string">null-terminated strings</a> in browser implementations, the <a href="https://drafts.csswg.org/css-syntax/#consume-escaped-code-point">CSS Syntax Module Level 3 specifically treats <code>\0</code> like an invalid escape sequence</a> and requires that it result in the <a href="https://en.wikipedia.org/wiki/Specials_%28Unicode_block%29#Replacement_character">Unicode replacement character (U+FFFD; "&#xfffd;")</a> instead of the null character.
+        But CSS Syntax Level 3 is a somewhat recent spec, and thus older browsers treat <code>\0</code> differently.
+      </p>
+      <p>At any rate, there are 4 obvious ways that browsers might parse <code>0\0</code>:</p>
+      <ol>
+        <li>As <code>0&#xfffd;</code>, per the CSS Syntax Level 3 spec.</li>
+        <li>As <code>0&#x2400;</code>, assuming the browser doesn't use null-terminated strings internally and doesn't treat null characters in CSS as syntax errors.</li>
+        <li>As <code>0</code>, assuming the browser does use null-terminated strings internally and doesn't treat null characters in CSS as syntax errors. To be clear, this is a blatant implementation bug in the browser.</li>
+        <li>As a syntax error. Prior to CSS Syntax Level 3, this was a reasonable choice for savvy parsers, since it's difficult to come up with any legitimate use for null characters in CSS.</li>
+      </ol>
+      <p>
+        Cases 1 &amp; 2 will ultimately lead to syntax errors, since neither <code>&#xfffd;</code> nor <code>&#x2400;</code> are valid <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length#Units">CSS length units</a>, and <code>min-width</code>'s value must be a length.
+      </p>
+      <p>That leaves Case 3. Since zero can be unitless in valid CSS (which is allowed because <code>0px = 0in = 0em</code>, etc.), the media query ends up being equivalent to <code>@media (min-width: 0px)</code>, whose condition will <em>always</em> evaluate to True in any non-completely-insane browser.</p>
+
+      <h2>Affected browsers</h2>
+      <p>Check out the links for corroborating screenshots.</p>
+      <div class="scroll-x">
+        <table class="table table-bordered">
+          <caption>Test results</caption>
+          <thead>
+            <tr>
+              <th>
+                <img src="../browser-imgs/chrome_64x64.png" /><br />
+                Chrome
+              </th>
+              <th>
+                <img src="../browser-imgs/safari_64x64.png" /><br />
+                Safari
+              </th>
+              <th>
+                <img src="../browser-imgs/firefox_64x64.png" /><br />
+                Firefox
+              </th>
+              <th>
+                <img src="../browser-imgs/edge_64x64.png" /><br />
+                MS Edge<a href="#edgenote"><sup>1</sup></a>
+              </th>
+              <th>
+                <img src="../browser-imgs/ie_64x64.png" /><br />
+                IE
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="unknown">
+                48
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                10
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                46
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                13
+                <br />Unknown
+              </td>
+              <td class="empty"></td>
+            </tr>
+            <tr>
+              <td class="unknown">
+                47
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                9.0.2
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                45.0a2
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                12.10249
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                11
+                <br />Unknown
+              </td>
+            </tr>
+            <tr>
+              <td class="unknown">
+                46
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                8.0.8
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                44.0b7
+                <br />Unknown
+              </td>
+              <td class="empty"></td>
+              <td class="unknown">
+                10
+                <br />Unknown
+              </td>
+            </tr>
+            <tr>
+              <td class="unknown">
+                26
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                7.1.7
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                43.0.4
+                <br />Unknown
+              </td>
+              <td class="empty"></td>
+              <td class="unknown">
+                9
+                <br />Unknown
+              </td>
+            </tr>
+            <tr>
+              <td class="empty"></td>
+              <td class="unknown">
+                6.2.7
+                <br />Unknown
+              </td>
+              <td class="empty"></td>
+              <td class="empty"></td>
+              <td class="unknown">
+                8
+                <br />Unknown
+              </td>
+            </tr>
+            <tr>
+              <td class="empty"></td>
+              <td class="unknown">
+                5.1.7
+                <br />Unknown
+              </td>
+              <td class="empty"></td>
+              <td class="empty"></td>
+              <td class="empty"></td>
+            </tr>
+            <tr>
+              <td class="empty"></td>
+              <td class="unknown">
+                4
+                <br />Unknown
+              </td>
+              <td class="empty"></td>
+              <td class="empty"></td>
+              <td class="empty"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <small class="note" id="edgenote">Note 1: MS Edge versions refer to the EdgeHTML rendering engine version, not the Edge app version shown in Edge's "About" screen. <a href="https://github.com/Fyrd/caniuse/issues/1928">See this <em>Can I Use</em> issue.</a></small>
+
+      <footer class="text-center">
+        <a href="http://browser-bugs.github.io/css-hacks/">CSS Hacks Research</a> &middot;
+        <a href="https://github.com/browser-bugs/css-hacks">GitHub repo</a> &middot;
+        <a href="https://github.com/browser-bugs/css-hacks/blob/gh-pages/media-min-width-0-backslash-0/index.html">Edit this page</a><br />
+        &copy; 2016 <a href="http://browserbu.gs">Browser Bugs Working Group</a>. Content dual-licensed under <a href="https://github.com/browser-bugs/css-hacks/blob/master/LICENSE-MIT.txt">MIT</a> &amp; <a href="https://github.com/browser-bugs/css-hacks/blob/master/LICENSE-CC-BY.txt">CC-BY-4.0</a>.<br />
+        <a href="https://twitter.com/browser_bugs" class="twitter">Twitter: @browser_bugs</a><br />
+        <a href="https://validator.w3.org/nu/?doc=http%3A%2F%2Fbrowserbu.gs%2Fcss-hacks%2Fmedia-min-width-0-backslash-0%2F">Validate this HTML</a>
+        <p class="text-left"><small>All logos and trademarks are the property of their respective owners.</small></p>
+      </footer>
+    </div>
+  </body>
+</html>
