@@ -10,4 +10,4 @@ CSS Hacks Lab is a project of the [Browser Bugs Working Group](http://browserbu.
 ## License
 This project is dual-licensed under the disjunction of [the MIT License](https://github.com/browser-bugs/css-hacks/blob/gh-pages/LICENSE-MIT.txt) and the [Creative Commons Attribution 4.0 International Public License](https://github.com/browser-bugs/css-hacks/blob/gh-pages/LICENSE-CC-BY.txt).
 
-Note that the browser logos are utilized under fair use and are not licensed. Also note that the site's theme CSS, by virtue of being a derivative work of an MIT-licensed work, is not available under the Creative Commons license.
+Note that the browser logos are utilized under fair use and are not licensed. Also note that the site's theme CSS, by virtue of being a derivative work of an MIT-licensed work, is not available under the aforementioned Creative Commons license.
