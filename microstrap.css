@@ -110,6 +110,15 @@ pre {
 }
 /* END Bootstrap-based styles */
 
+/* Vertically align the browser logos */
+.thead-browsers tr:first-child th {
+  border-bottom: none;
+}
+.thead-browsers tr:nth-child(2) th {
+  border-top: none;
+  vertical-align: middle;
+}
+
 .twitter {
   text-decoration: none;
 }
