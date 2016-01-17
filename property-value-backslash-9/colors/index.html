@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>property: color\9; hack &ndash; CSS Hacks Lab</title>
+    <link href="../../microstrap.css" rel="stylesheet" />
+    <style>
+.testbed-keyword, .testbed-hex, .testbed-func, .testbed-transparent {
+  height: 75px;
+  width: 150px;
+  white-space: nowrap;
+  font-family: Helvetica,Arial,sans-serif;
+  font-weight: bold;
+  font-size: large;
+}
+.testbed-keyword {
+  line-height: 75px;/* vertical centering trick */
+  font-size: large;
+}
+.testbed-hex, .testbed-func, .testbed-transparent {
+  line-height: 75px;/* vertical centering trick */
+  font-size: x-large;
+}
+.testbed-transparent {
+  position: relative;/* to make abspos child work properly; blame CSS logic */
+}
+.liquid {
+  height: 100%;
+  width: 100%;
+}
+.guineapig-transparent {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+    </style>
+    <!-- Operative part of the test: -->
+    <style>
+.guineapig-keyword {
+  background-color: lime\9;
+  color: green\9;
+}
+.guineapig-hex {
+  background-color: #adff2f\9;
+  color: #228b22\9;
+}
+.guineapig-func {
+  background-color: rgb(173, 255, 47)\9;
+  color: rgb(34, 139, 34)\9;
+}
+.guineapig-transparent {
+  background-color: transparent\9;
+}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>The <code>property: color\9;</code> hack</h1>
+      <p>Last updated 2016-01-16.</p>
+
+      <h2>The hack</h2>
+      <div class="scroll-x">
+<pre>
+.your-selector-here {
+  some-property: somecolor\9;
+}
+</pre>
+      </div>
+      <p>&hellip;where <code>somecolor</code> is a <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value">CSS color value</a>.</p>
+      <p>
+        Source: <a href="http://www.paulirish.com/2009/browser-specific-css-hacks/">Browser CSS Hacks</a> by Paul Irish
+      </p>
+
+      <h2>Live testcases</h2>
+
+      <div class="testbed-keyword text-center no guineapig-keyword">
+        Color keyword
+      </div>
+      <p>If the rectangle above shows dark-green text on a light-green background, then your browser supports this hack for <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#Color_keywords">color keyword values (e.g. <code>lime</code>)</a>.</p>
+
+      <div class="testbed-hex text-center no guineapig-hex">
+        Hex color
+      </div>
+      <p>If the rectangle above shows dark-green text on a light-green background, then your browser supports this hack for <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb()">RGB colors in hexadecimal notation (e.g. <code>#adff2f</code>)</a>.</p>
+
+      <div class="testbed-func text-center no guineapig-func">
+        rgb(R,G,B)
+      </div>
+      <p>If the rectangle above shows dark-green text on a light-green background, then your browser supports this hack for <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb()">RGB colors in functional notation (e.g. <code>rgb(173, 255, 47)</code>)</a>.</p>
+
+      <div class="testbed-transparent text-center">
+        <div class="no liquid guineapig-transparent"></div>
+        <div class="yes liquid">Affected</div>
+      </div>
+      <p>If the rectangle above shows the word "Affected" on a green background, then your browser supports this hack for <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#transparent_keyword">the <code>transparent</code> keyword color value</a>.</p>
+
+      <h2>How it works</h2>
+      <p>FIXME</p>
+      <p>
+        https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+      </p>
+
+      <h2>Affected browsers</h2>
+      <p>Check out the links for corroborating screenshots.</p>
+      <div class="scroll-x">
+        <table class="table table-bordered">
+          <caption>Test results</caption>
+          <thead class="thead-browsers">
+            <tr>
+              <th>
+                <img src="../browser-imgs/chrome_64x64.png" alt="Chrome" /><br />
+              </th>
+              <th>
+                <img src="../browser-imgs/safari-osx_64x64.png" alt="OS X Safari" /><br />
+              </th>
+              <th>
+                <img src="../browser-imgs/safari-ios_64x64.png" alt="iOS Safari" /><br />
+              </th>
+              <th>
+                <img src="../browser-imgs/firefox_64x64.png" alt="Firefox" /><br />
+              </th>
+              <th>
+                <img src="../browser-imgs/edge_64x64.png" alt="Microsoft Edge" /><br />
+              </th>
+              <th>
+                <img src="../browser-imgs/ie_64x64.png" alt="Internet Explorer" /><br />
+              </th>
+            </tr>
+            <tr>
+              <th>Chrome</th>
+              <th>OS X<br />Safari</th>
+              <th>iOS<br />Safari</th>
+              <th>Firefox</th>
+              <th>MS Edge<a href="#edgenote"><sup>1</sup></a></th>
+              <th>Internet<br />Explorer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="unknown">
+                48
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                10
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                9.3
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                46
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                13
+                <br />Unknown
+              </td>
+              <td class="empty"></td>
+            </tr>
+            <tr>
+              <td class="unknown">
+                47
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                9.0.2
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                9.2
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                45.0a2
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                12.10240
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                11
+                <br />Unknown
+              </td>
+            </tr>
+            <tr>
+              <td class="unknown">
+                46
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                8.0.8
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                8.4
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                44.0b7
+                <br />Unknown
+              </td>
+              <td class="empty"></td>
+              <td class="unknown">
+                10
+                <br />Unknown
+              </td>
+            </tr>
+            <tr>
+              <td class="unknown">
+                26
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                7.1.7
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                7.1
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                43.0.4
+                <br />Unknown
+              </td>
+              <td class="empty"></td>
+              <td class="unknown">
+                9
+                <br />Unknown
+              </td>
+            </tr>
+            <tr>
+              <td class="empty"></td>
+              <td class="unknown">
+                6.2.7
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                6.1
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                4.0.1
+                <br />Unknown
+              </td>
+              <td class="empty"></td>
+              <td class="unknown">
+                8
+                Unknown
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <small class="note" id="edgenote">Note 1: MS Edge versions refer to the EdgeHTML rendering engine version, not the Edge app version shown in Edge's "About" screen. <a href="https://github.com/Fyrd/caniuse/issues/1928">See this <em>Can I Use</em> issue.</a></small><br />
+
+      <footer class="text-center">
+        <!-- FIXME: links -->
+        <a href="http://browser-bugs.github.io/css-hacks/">CSS Hacks Lab</a> &middot;
+        <a href="https://github.com/browser-bugs/css-hacks">Contribute via GitHub</a> &middot;
+        <a href="https://github.com/browser-bugs/css-hacks/blob/gh-pages/property-value-backslash-9/colors/index.html">Edit this page</a><br />
+        &copy; 2016 <a href="http://browserbu.gs">Browser Bugs Working Group</a>. Content dual-licensed under <a href="https://github.com/browser-bugs/css-hacks/blob/gh-pages/LICENSE-MIT.txt">MIT</a> &amp; <a href="https://github.com/browser-bugs/css-hacks/blob/gh-pages/LICENSE-CC-BY.txt">CC-BY-4.0</a>.<br />
+        <a href="https://twitter.com/browser_bugs" class="twitter">Twitter: @browser_bugs</a><br />
+        <a href="https://validator.w3.org/nu/?doc=http%3A%2F%2Fbrowserbu.gs%2Fcss-hacks%2Fproperty-value-backslash-9%2Fcolors%2F">Validate this HTML</a>
+        <p class="text-left"><small>All logos and trademarks are the property of their respective owners.</small></p>
+      </footer>
+    </div>
+  </body>
+</html>
