@@ -91,7 +91,6 @@
       <p>&hellip;where <code>somelength</code> is a <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length">CSS length value</a> and <code>some-length-property-here</code> is a CSS property whose value can be a CSS length.</p>
       <!--
       FIXME: WHAT ABOUT PERCENT LENGTHS?
-      FIXME: test spaces or lack thereof
       -->
       <p>
         Source: <a href="http://www.paulirish.com/2009/browser-specific-css-hacks/">Browser CSS Hacks</a> by Paul Irish
@@ -128,8 +127,7 @@
       <p>If the above square is light green, then your browser supports this hack for the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/margin"><code>border-{top,bottom,left,right}-width</code></a> CSS properties.</p>
 
       <h2>How it works</h2>
-      <p><a href="https://drafts.csswg.org/css-syntax/#escaping">Backslash (<code>\</code>) is used as an escape character in CSS.</a> So <code>\9</code> is an escape sequence which encodes the <a href="https://en.wikipedia.org/wiki/Tab_character">tab character (U+0009).</a> Presumably the affected browsers are interpreting it like a literal tab character and thus ignoring it when parsing <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length">length values</a>, since whitespace between the value and the semicolon that ends a declaration doesn't matter in CSS (something like <code>width: 5px&nbsp;&nbsp;&nbsp;;</code> is perfectly valid).</p>
-      <p>FIXME narrative summary of compatibility</p>
+      <p><a href="https://drafts.csswg.org/css-syntax/#escaping">Backslash (<code>\</code>) is used as an escape character in CSS.</a> So <code>\9</code> is an escape sequence which encodes the <a href="https://en.wikipedia.org/wiki/Tab_character">tab character (U+0009).</a> Presumably the affected browsers are interpreting it like a literal tab character and thus ignoring it when parsing <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length">length values</a>, since whitespace between the value and the semicolon that ends a declaration doesn't matter in CSS (something like <code>width: 5px&nbsp;&nbsp;&nbsp;;</code> is perfectly valid). IE9-10 are known to suffer from the bug that this hack relies upon.</p>
 
       <h2>Affected browsers</h2>
       <p>Check out the links for corroborating screenshots.</p>
