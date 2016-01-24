@@ -78,7 +78,7 @@
   <body>
     <div class="container">
       <h1>The <code>length-property: length\9;</code> hack</h1>
-      <p>Last updated 2016-01-22.</p>
+      <p>Last updated 2016-01-23.</p>
 
       <h2>The hack</h2>
       <div class="scroll-x">
@@ -127,7 +127,7 @@
       <p>If the above square is light green, then your browser supports this hack for the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/margin"><code>border-{top,bottom,left,right}-width</code></a> CSS properties.</p>
 
       <h2>How it works</h2>
-      <p><a href="https://drafts.csswg.org/css-syntax/#escaping">Backslash (<code>\</code>) is used as an escape character in CSS.</a> So <code>\9</code> is an escape sequence which encodes the <a href="https://en.wikipedia.org/wiki/Tab_character">tab character (U+0009).</a> Presumably the affected browsers are interpreting it like a literal tab character and thus ignoring it when parsing <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length">length values</a>, since whitespace between the value and the semicolon that ends a declaration doesn't matter in CSS (something like <code>width: 5px&nbsp;&nbsp;&nbsp;;</code> is perfectly valid). IE9-10 are known to suffer from the bug that this hack relies upon.</p>
+      <p><a href="https://drafts.csswg.org/css-syntax/#escaping">Backslash (<code>\</code>) is used as an escape character in CSS.</a> So <code>\9</code> is an escape sequence which encodes the <a href="https://en.wikipedia.org/wiki/Tab_character">tab character (U+0009).</a> Presumably the affected browsers are interpreting it like a literal tab character and thus ignoring it when parsing <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length">length values</a>, since whitespace between the value and the semicolon that ends a declaration doesn't matter in CSS (something like <code>width: 5px&nbsp;&nbsp;&nbsp;;</code> is perfectly valid). IE8-10 are known to suffer from the bug that this hack relies upon.</p>
 
       <h2>Affected browsers</h2>
       <p>Check out the links for corroborating screenshots.</p>
