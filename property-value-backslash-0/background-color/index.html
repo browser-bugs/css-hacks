@@ -111,11 +111,11 @@
         However, presumably to prevent bugs related to potential use of <a href="https://en.wikipedia.org/wiki/Null-terminated_string">null-terminated strings</a> in browser implementations, the <a href="https://drafts.csswg.org/css-syntax/#consume-escaped-code-point">CSS Syntax Module Level 3 specifically treats <code>\0</code> like an invalid escape sequence</a> and requires that it result in the <a href="https://en.wikipedia.org/wiki/Specials_%28Unicode_block%29#Replacement_character">Unicode replacement character (U+FFFD; "&#xfffd;")</a> instead of the null character.
         But CSS Syntax Level 3 is a somewhat recent spec, and thus older browsers treat <code>\0</code> differently.
       </p>
-      <p>At any rate, there are 4 obvious ways that browsers might parse <code>\0</code>:</p>
+      <p>At any rate, there are 4 obvious ways that browsers might parse <code><em>somecolor</em>\0</code>:</p>
       <ol>
-        <li>As <code>0&#xfffd;</code>, per the CSS Syntax Level 3 spec.</li>
-        <li>As <code>0&#x2400;</code>, assuming the browser doesn't use null-terminated strings internally and doesn't treat null characters in CSS as syntax errors.</li>
-        <li>As <code>0</code>, assuming the browser does use null-terminated strings internally and doesn't treat null characters in CSS as syntax errors. To be clear, this is a blatant implementation bug in the browser.</li>
+        <li>As <code><em>somecolor</em>&#xfffd;</code>, per the CSS Syntax Level 3 spec.</li>
+        <li>As <code><em>somecolor</em>&#x2400;</code>, assuming the browser doesn't use null-terminated strings internally and doesn't treat null characters in CSS as syntax errors.</li>
+        <li>As <code><em>somecolor</em></code>, assuming the browser does use null-terminated strings internally and doesn't treat null characters in CSS as syntax errors. To be clear, this is a blatant implementation bug in the browser.</li>
         <li>As a syntax error. Prior to CSS Syntax Level 3, this was a reasonable choice for savvy parsers, since it's difficult to come up with any legitimate use for null characters in CSS.</li>
       </ol>
       <p>
