@@ -106,19 +106,12 @@
       <p>If the rectangle above is light green, then your browser supports this hack for <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb()">RGB colors in functional notation (e.g. <code>rgb(173, 255, 47)</code>)</a>.</p>
 
       <h2>How it works</h2>
-      <!--
-      <p><a href="https://drafts.csswg.org/css-syntax/#escaping">Backslash (<code>\</code>) is used as an escape character in CSS.</a> So <code>\9</code> is an escape sequence which encodes the <a href="https://en.wikipedia.org/wiki/Tab_character">tab character (U+0009).</a> Presumably the affected browsers are interpreting it like a literal tab character and thus ignoring it when parsing <code>background-color</code> values, since whitespace between the value and the semicolon that ends a declaration doesn't matter in CSS (something like <code>background-color: red&nbsp;&nbsp;&nbsp;;</code> is perfectly valid).</p>
-      <p>The hack seems to work for colors represented using any syntax in IE8. It seems to work for colors represented using any syntax <strong>except functional notation</strong> (e.g. <code>rgb(173, 255, 47)</code>) in IE9-10 (see <a href="#rgbfunc"><em>Note 2</em></a>).</p>
-      <p>The hack doesn't seem to work in IE11 or any other browser.</p>
-    -->
-    <!--
-    <p>
-        This hack exploits a bug in the browser's parsing of CSS media queries.
+      <p>
         <a href="https://drafts.csswg.org/css-syntax/#escaping">Backslash (<code>\</code>) is used as an escape character in CSS.</a> So <code>\0</code> is an escape sequence which notionally encodes the <a href="https://en.wikipedia.org/wiki/Null_character">null character (&#x2400;).</a>
         However, presumably to prevent bugs related to potential use of <a href="https://en.wikipedia.org/wiki/Null-terminated_string">null-terminated strings</a> in browser implementations, the <a href="https://drafts.csswg.org/css-syntax/#consume-escaped-code-point">CSS Syntax Module Level 3 specifically treats <code>\0</code> like an invalid escape sequence</a> and requires that it result in the <a href="https://en.wikipedia.org/wiki/Specials_%28Unicode_block%29#Replacement_character">Unicode replacement character (U+FFFD; "&#xfffd;")</a> instead of the null character.
         But CSS Syntax Level 3 is a somewhat recent spec, and thus older browsers treat <code>\0</code> differently.
       </p>
-      <p>At any rate, there are 4 obvious ways that browsers might parse <code>0\0</code>:</p>
+      <p>At any rate, there are 4 obvious ways that browsers might parse <code>\0</code>:</p>
       <ol>
         <li>As <code>0&#xfffd;</code>, per the CSS Syntax Level 3 spec.</li>
         <li>As <code>0&#x2400;</code>, assuming the browser doesn't use null-terminated strings internally and doesn't treat null characters in CSS as syntax errors.</li>
@@ -126,10 +119,12 @@
         <li>As a syntax error. Prior to CSS Syntax Level 3, this was a reasonable choice for savvy parsers, since it's difficult to come up with any legitimate use for null characters in CSS.</li>
       </ol>
       <p>
-        Cases 1 &amp; 2 will ultimately lead to syntax errors, since neither <code>&#xfffd;</code> nor <code>&#x2400;</code> are valid <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length#Units">CSS length units</a>, and <code>min-width</code>'s value must be a length.
+        Cases 1 &amp; 2 will ultimately lead to syntax errors, since neither <code>&#xfffd;</code> nor <code>&#x2400;</code> can be part of valid <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value">CSS color values</a>, and <code>background-color</code>'s value must be a color.
       </p>
-      <p>That leaves Case 3. Since zero can be unitless in valid CSS (which is allowed because <code>0px = 0in = 0em</code>, etc.), the media query ends up being equivalent to <code>@media (min-width: 0px)</code>, whose condition will <em>always</em> evaluate to True in any non-completely-insane browser.</p>
-    -->
+      <p>That leaves Case 3, which will lead to the &#x2400; itself and any content after it being ignored since the &#x2400; will terminate the string prematurely, leaving (in the case of this hack) only a valid color as the <code>background-color</code> property's value.</p>
+
+      <p>The hack seems to work for colors represented using any syntax in IE8. It seems to work for colors represented using any syntax <strong>except functional notation</strong> (e.g. <code>rgb(173, 255, 47)</code>) in IE9-11 (see <a href="#rgbfunc"><em>Note 2</em></a>).</p>
+      <p>The hack doesn't seem to work in any other browser (including Microsoft Edge).</p>
 
       <h2>Affected browsers</h2>
       <p>Check out the links for corroborating screenshots.</p>
