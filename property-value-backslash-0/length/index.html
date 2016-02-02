@@ -127,9 +127,24 @@
       <p>If the above square is light green, then your browser supports this hack for the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/margin"><code>border-{top,bottom,left,right}-width</code></a> CSS properties.</p>
 
       <h2>How it works</h2>
-      <!--TODO
-      <p><a href="https://drafts.csswg.org/css-syntax/#escaping">Backslash (<code>\</code>) is used as an escape character in CSS.</a> So <code>\0</code> is an escape sequence which encodes the <a href="https://en.wikipedia.org/wiki/Tab_character">tab character (U+0009).</a> Presumably the affected browsers are interpreting it like a literal tab character and thus ignoring it when parsing <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length">length values</a>, since whitespace between the value and the semicolon that ends a declaration doesn't matter in CSS (something like <code>width: 5px&nbsp;&nbsp;&nbsp;;</code> is perfectly valid). IE8-10 are known to suffer from the bug that this hack relies upon.</p>
-      -->
+      <p>
+        <a href="https://drafts.csswg.org/css-syntax/#escaping">Backslash (<code>\</code>) is used as an escape character in CSS.</a> So <code>\0</code> is an escape sequence which notionally encodes the <a href="https://en.wikipedia.org/wiki/Null_character">null character (&#x2400;).</a>
+        However, presumably to prevent bugs related to potential use of <a href="https://en.wikipedia.org/wiki/Null-terminated_string">null-terminated strings</a> in browser implementations, the <a href="https://drafts.csswg.org/css-syntax/#consume-escaped-code-point">CSS Syntax Module Level 3 specifically treats <code>\0</code> like an invalid escape sequence</a> and requires that it result in the <a href="https://en.wikipedia.org/wiki/Specials_%28Unicode_block%29#Replacement_character">Unicode replacement character (U+FFFD; "&#xfffd;")</a> instead of the null character.
+        But CSS Syntax Level 3 is a somewhat recent spec, and thus older browsers treat <code>\0</code> differently.
+      </p>
+      <p>At any rate, there are 4 obvious ways that browsers might parse <code><em>somelength</em>\0</code>:</p>
+      <ol>
+        <li>As <code><em>somelength</em>&#xfffd;</code>, per the CSS Syntax Level 3 spec.</li>
+        <li>As <code><em>somelength</em>&#x2400;</code>, assuming the browser doesn't use null-terminated strings internally and doesn't treat null characters in CSS as syntax errors.</li>
+        <li>As <code><em>somelength</em></code>, assuming the browser does use null-terminated strings internally and doesn't treat null characters in CSS as syntax errors. To be clear, this is a blatant implementation bug in the browser.</li>
+        <li>As a syntax error. Prior to CSS Syntax Level 3, this was a reasonable choice for savvy parsers, since it's difficult to come up with any legitimate use for null characters in CSS.</li>
+      </ol>
+      <p>
+        Cases 1 &amp; 2 will ultimately lead to syntax errors, since neither <code>&#xfffd;</code> nor <code>&#x2400;</code> can be part of valid <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length">CSS length values</a>.
+      </p>
+      <p>That leaves Case 3, which will lead to the &#x2400; itself and any content after it being ignored since the &#x2400; will terminate the string prematurely, leaving (in the case of this hack) only a valid length as the property's value.</p>
+
+      <p>The hack seems to work only in IE8-11, and not in any non-IE browser (including Microsoft Edge).</p>
 
       <h2>Affected browsers</h2>
       <p>Check out the links for corroborating screenshots.</p>
