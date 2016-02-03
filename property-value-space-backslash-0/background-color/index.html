@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>background-color: color \0; hack &ndash; CSS Hacks Lab</title>
+    <link href="../../microstrap.css" rel="stylesheet" />
+    <style>
+.testbed-keyword, .testbed-hex, .testbed-func, .testbed-transparent {
+  height: 75px;
+  width: 150px;
+  white-space: nowrap;
+  font-family: Helvetica,Arial,sans-serif;
+  font-weight: bold;
+  font-size: large;
+}
+.testbed-keyword {
+  line-height: 75px;/* vertical centering trick */
+  font-size: large;
+}
+.testbed-hex, .testbed-func, .testbed-transparent {
+  line-height: 75px;/* vertical centering trick */
+  font-size: x-large;
+}
+.testbed-transparent {
+  position: relative;/* to make abspos child work properly; blame CSS logic */
+}
+.liquid {
+  height: 100%;
+  width: 100%;
+}
+.guineapig-transparent {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+    </style>
+    <!-- Operative part of the test: -->
+    <style>
+.guineapig-keyword {
+  background-color: lime \0;
+}
+    </style>
+    <style>
+.guineapig-hex {
+  background-color: #adff2f \0;
+}
+    </style>
+    <style>
+.guineapig-func {
+  background-color: rgb(173, 255, 47) \0;
+}
+    </style>
+    <style>
+.guineapig-transparent {
+  background-color: transparent \0;
+}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>The <code>background-color: color&nbsp;\0;</code> hack</h1>
+      <p>Last updated 2016-01-28.</p>
+
+      <h2>The hack</h2>
+      <div class="scroll-x">
+<pre>
+.your-selector-here {
+  background-color: somecolor \0;
+}
+</pre>
+      </div>
+      <p>&hellip;where <code>somecolor</code> is a <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value">CSS color value</a>.</p>
+      <p>
+        Source: <a href="http://www.paulirish.com/2009/browser-specific-css-hacks/">Browser CSS Hacks</a> by Paul Irish
+      </p>
+      <p>
+        <strong>Important note!</strong>
+        This article <strong>only</strong> applies to the <code>background-color</code> property and <strong>only</strong> applies when there is space between <code>somecolor</code> and <code>\0</code>.
+        Adding spaces or using different properties <em>may change the compatibility of the hack</em>.<br />
+        You have been warned.
+      </p>
+
+      <h2 id="tests">Live testcases</h2>
+
+      <div class="testbed-keyword text-center no guineapig-keyword">
+        Color keyword
+      </div>
+      <p>If the rectangle above is light green, then your browser supports this hack for <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#Color_keywords">color keyword values (e.g. <code>lime</code>)</a>.</p>
+
+      <div class="testbed-hex text-center no guineapig-hex">
+        Hex color
+      </div>
+      <p>If the rectangle above is light green, then your browser supports this hack for <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb()">RGB colors in hexadecimal notation (e.g. <code>#adff2f</code>)</a>.</p>
+
+      <div class="testbed-transparent text-center">
+        <div class="no liquid guineapig-transparent"></div>
+        <div class="yes liquid">Affected</div>
+      </div>
+      <p>If the rectangle above shows the word "Affected" on a green background, then your browser supports this hack for <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#transparent_keyword">the <code>transparent</code> keyword color value</a>.</p>
+
+      <div class="testbed-func text-center no guineapig-func">
+        rgb(R,G,B)
+      </div>
+      <p>If the rectangle above is light green, then your browser supports this hack for <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb()">RGB colors in functional notation (e.g. <code>rgb(173, 255, 47)</code>)</a>.</p>
+
+      <h2 id="how-it-works">How it works</h2>
+      <!--FIXME
+      <p>
+        <a href="https://drafts.csswg.org/css-syntax/#escaping">Backslash (<code>\</code>) is used as an escape character in CSS.</a> So <code>\0</code> is an escape sequence which notionally encodes the <a href="https://en.wikipedia.org/wiki/Null_character">null character (&#x2400;).</a>
+        However, presumably to prevent bugs related to potential use of <a href="https://en.wikipedia.org/wiki/Null-terminated_string">null-terminated strings</a> in browser implementations, the <a href="https://drafts.csswg.org/css-syntax/#consume-escaped-code-point">CSS Syntax Module Level 3 specifically treats <code>\0</code> like an invalid escape sequence</a> and requires that it result in the <a href="https://en.wikipedia.org/wiki/Specials_%28Unicode_block%29#Replacement_character">Unicode replacement character (U+FFFD; "&#xfffd;")</a> instead of the null character.
+        But CSS Syntax Level 3 is a somewhat recent spec, and thus older browsers treat <code>\0</code> differently.
+      </p>
+      <p>At any rate, there are 4 obvious ways that browsers might parse <code><em>somecolor</em>\0</code>:</p>
+      <ol>
+        <li>As <code><em>somecolor</em>&#xfffd;</code>, per the CSS Syntax Level 3 spec.</li>
+        <li>As <code><em>somecolor</em>&#x2400;</code>, assuming the browser doesn't use null-terminated strings internally and doesn't treat null characters in CSS as syntax errors.</li>
+        <li>As <code><em>somecolor</em></code>, assuming the browser does use null-terminated strings internally and doesn't treat null characters in CSS as syntax errors. To be clear, this is a blatant implementation bug in the browser.</li>
+        <li>As a syntax error. Prior to CSS Syntax Level 3, this was a reasonable choice for savvy parsers, since it's difficult to come up with any legitimate use for null characters in CSS.</li>
+      </ol>
+      <p>
+        Cases 1 &amp; 2 will ultimately lead to syntax errors, since neither <code>&#xfffd;</code> nor <code>&#x2400;</code> can be part of valid <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value">CSS color values</a>, and <code>background-color</code>'s value must be a color.
+      </p>
+      <p>That leaves Case 3, which will lead to the &#x2400; itself and any content after it being ignored since the &#x2400; will terminate the string prematurely, leaving (in the case of this hack) only a valid color as the <code>background-color</code> property's value.</p>
+
+      <p>The hack seems to work for colors represented using any syntax in IE8. It seems to work for colors represented using any syntax <strong>except functional notation</strong> (e.g. <code>rgb(173, 255, 47)</code>) in IE9-11 (see <a href="#rgbfunc"><em>Note 2</em></a>).</p>
+      <p>The hack doesn't seem to work in any other browser (including Microsoft Edge).</p>
+      -->
+
+      <h2 id="compat">Affected browsers</h2>
+      <p>Check out the links for corroborating screenshots.</p>
+      <div class="scroll-x">
+        <table class="table table-bordered">
+          <caption>Test results</caption>
+          <thead class="thead-browsers">
+            <tr>
+              <th>
+                <img src="../../browser-imgs/chrome_64x64.png" alt="Chrome" /><br />
+              </th>
+              <th>
+                <img src="../../browser-imgs/safari-osx_64x64.png" alt="OS X Safari" /><br />
+              </th>
+              <th>
+                <img src="../../browser-imgs/safari-ios_64x64.png" alt="iOS Safari" /><br />
+              </th>
+              <th>
+                <img src="../../browser-imgs/firefox_64x64.png" alt="Firefox" /><br />
+              </th>
+              <th>
+                <img src="../../browser-imgs/edge_64x64.png" alt="Microsoft Edge" /><br />
+              </th>
+              <th>
+                <img src="../../browser-imgs/ie_64x64.png" alt="Internet Explorer" /><br />
+              </th>
+            </tr>
+            <tr>
+              <th>Chrome</th>
+              <th>OS X<br />Safari</th>
+              <th>iOS<br />Safari</th>
+              <th>Firefox</th>
+              <th>MS Edge<a href="#edgenote"><sup>1</sup></a></th>
+              <th>Internet<br />Explorer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="unknown">
+                49
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                10
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                9.3
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                45
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                13
+                <br />Unknown
+              </td>
+              <td class="empty"></td>
+            </tr>
+            <tr>
+              <td class="unknown">
+                48
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                9.0.3
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                9.2
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                44.0
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                12.10240
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                11
+                <br />Unknown
+              </td>
+            </tr>
+            <tr>
+              <td class="unknown">
+                47
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                8.0.8
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                8.4
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                43.0.1
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                12.10166
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                10
+                <br />Unknown
+              </td>
+            </tr>
+            <tr>
+              <td class="unknown">
+                26
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                7.1.7
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                7.1
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                4.0.1
+                <br />Unknown
+              </td>
+              <td class="empty"></td>
+              <td class="unknown">
+                9
+                <br />Unknown
+              </td>
+            </tr>
+            <tr>
+              <td class="unknown">
+                25
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                6.2.7
+                <br />Unknown
+              </td>
+              <td class="unknown">
+                6.1
+                <br />Unknown
+              </td>
+              <td class="empty"></td>
+              <td class="empty"></td>
+              <td class="unknown">
+                8
+                <br />Unknown
+              </td>
+            </tr>
+            <tr>
+              <td class="empty"></td>
+              <td class="empty"></td>
+              <td class="empty"></td>
+              <td class="empty"></td>
+              <td class="empty"></td>
+              <td class="unknown">
+                7
+                <br />Unknown
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <small class="note" id="edgenote">Note 1: MS Edge versions refer to the EdgeHTML rendering engine version, not the Edge app version shown in Edge's "About" screen. <a href="https://github.com/Fyrd/caniuse/issues/1928">See this <em>Can I Use</em> issue.</a></small><br />
+      <!--<small class="note" id="rgbfunc">Note 2: <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb()">Functional color notation</a> (e.g. <code>rgb(173, 255, 47)</code>) <strong>is not compatible with this hack.</strong></small><br />-->
+
+      <footer class="text-center">
+        <a href="http://browser-bugs.github.io/css-hacks/">CSS Hacks Lab</a> &middot;
+        <a href="https://github.com/browser-bugs/css-hacks">Contribute via GitHub</a> &middot;
+        <a href="https://github.com/browser-bugs/css-hacks/blob/gh-pages/property-value-space-backslash-0/background-color/index.html">Edit this page</a><br />
+        &copy; 2016 <a href="http://browserbu.gs">Browser Bugs Working Group</a>. Content dual-licensed under <a href="https://github.com/browser-bugs/css-hacks/blob/gh-pages/LICENSE-MIT.txt">MIT</a> &amp; <a href="https://github.com/browser-bugs/css-hacks/blob/gh-pages/LICENSE-CC-BY.txt">CC-BY-4.0</a>.<br />
+        <a href="https://twitter.com/browser_bugs" class="twitter">Twitter: @browser_bugs</a><br />
+        <a href="https://validator.w3.org/nu/?doc=http%3A%2F%2Fbrowserbu.gs%2Fcss-hacks%2Fproperty-value-space-backslash-0%2Fbackground-color%2F">Validate this HTML</a>
+        <p class="text-left"><small>All logos and trademarks are the property of their respective owners.</small></p>
+      </footer>
+    </div>
+    <script async src="../../ga.js"></script>
+    <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/anchorjs/3.0.0/anchor.min.js" integrity="sha384-/u+jACBfKbiyZY8/EuEXH/XE/uihTXgvFlQs//rfYx3oNN5ZGi8O9VtikiuNBgAE"></script>
+    <script src="../../anchors.js"></script>
+  </body>
+</html>
