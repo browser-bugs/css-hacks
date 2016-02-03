@@ -63,7 +63,7 @@ _::-webkit-full-page-media, .your-selector-here {
       <p>The underscore is a <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Type_selectors">tag selector</a> that selects <code>&lt;_&gt;</code> elements, which is to say elements whose tagName is "<code>_</code>" (as opposed to e.g. "<code>div</code>"). Of course, HTML doesn't define any <code>&lt;_&gt;</code> element, so this won't match anything, thus preventing this CSS rule from affecting anything besides <code>.your-selector-here</code>.</p>
       <p><code>::-webkit-full-page-media</code> is a proprietary, WebKit-specific <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements">pseudo-element</a>. Its name suggests it's probably related to full-screen video. When browsers see a CSS selector with a pseudo-element they don't recognize, they drop the entire CSS rule associated with it. As of 2016-01-08, although Chrome uses Blink, which was forked from WebKit, Chrome doesn't implement the <code>::-webkit-full-page-media</code> pseudo-element. Although MS Edge and Firefox have been known to implement WebKit-prefixed features for compatibility reasons, as of 2016-01-08 neither of them has implemented this pseudo-element either. Thus, only WebKit-based Safari considers the selector valid and continues parsing it.</p>
 
-      <h2>Affected browsers</h2>
+      <h2 id="compat">Affected browsers</h2>
       <p>Check out the links for corroborating screenshots.</p>
       <div class="scroll-x">
         <table class="table table-bordered">
