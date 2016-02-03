@@ -105,7 +105,7 @@
       </div>
       <p>If the rectangle above is light green, then your browser supports this hack for <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb()">RGB colors in functional notation (e.g. <code>rgb(173, 255, 47)</code>)</a>.</p>
 
-      <h2>How it works</h2>
+      <h2 id="how-it-works">How it works</h2>
       <p><a href="https://drafts.csswg.org/css-syntax/#escaping">Backslash (<code>\</code>) is used as an escape character in CSS.</a> So <code>\9</code> is an escape sequence which encodes the <a href="https://en.wikipedia.org/wiki/Tab_character">tab character (U+0009).</a> Presumably the affected browsers are interpreting it like a literal tab character and thus ignoring it when parsing <code>background-color</code> values, since whitespace between the value and the semicolon that ends a declaration doesn't matter in CSS (something like <code>background-color: red&nbsp;&nbsp;&nbsp;;</code> is perfectly valid).</p>
       <p>The hack seems to work for colors represented using any syntax in IE8. It seems to work for colors represented using any syntax <strong>except functional notation</strong> (e.g. <code>rgb(173, 255, 47)</code>) in IE9-10 (see <a href="#rgbfunc"><em>Note 2</em></a>).</p>
       <p>The hack doesn't seem to work in IE11 or any other browser.</p>

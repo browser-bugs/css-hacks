@@ -105,7 +105,7 @@
       </div>
       <p>If the rectangle above is light green, then your browser supports this hack for <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb()">RGB colors in functional notation (e.g. <code>rgb(173, 255, 47)</code>)</a>.</p>
 
-      <h2>How it works</h2>
+      <h2 id="how-it-works">How it works</h2>
       <p>
         <a href="https://drafts.csswg.org/css-syntax/#escaping">Backslash (<code>\</code>) is used as an escape character in CSS.</a> So <code>\0</code> is an escape sequence which notionally encodes the <a href="https://en.wikipedia.org/wiki/Null_character">null character (&#x2400;).</a>
         However, presumably to prevent bugs related to potential use of <a href="https://en.wikipedia.org/wiki/Null-terminated_string">null-terminated strings</a> in browser implementations, the <a href="https://drafts.csswg.org/css-syntax/#consume-escaped-code-point">CSS Syntax Module Level 3 specifically treats <code>\0</code> like an invalid escape sequence</a> and requires that it result in the <a href="https://en.wikipedia.org/wiki/Specials_%28Unicode_block%29#Replacement_character">Unicode replacement character (U+FFFD; "&#xfffd;")</a> instead of the null character.
