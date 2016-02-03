@@ -97,7 +97,7 @@
       </p>
       <p>
         <strong>Important note!</strong>
-        This article <strong>only</strong> applies to the specific properties mentioned below and <strong>only</strong> applies when there is space between <code>somelength</code> and <code>&nbsp;\9</code>.
+        This article <strong>only</strong> applies to the specific properties mentioned below and <strong>only</strong> applies when there is space between <code>somelength</code> and <code>\9</code>.
         Adding spaces or using different properties <em>may change the compatibility of the hack</em>.<br />
         You have been warned.
       </p>
@@ -127,10 +127,7 @@
       <p>If the above square is light green, then your browser supports this hack for the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/margin"><code>border-{top,bottom,left,right}-width</code></a> CSS properties.</p>
 
       <h2>How it works</h2>
-      <!--
-      FIXME
-      <p><a href="https://drafts.csswg.org/css-syntax/#escaping">Backslash (<code>\</code>) is used as an escape character in CSS.</a> So <code>\9</code> is an escape sequence which encodes the <a href="https://en.wikipedia.org/wiki/Tab_character">tab character (U+0009).</a> Presumably the affected browsers are interpreting it like a literal tab character and thus ignoring it when parsing <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length">length values</a>, since whitespace between the value and the semicolon that ends a declaration doesn't matter in CSS (something like <code>width: 5px&nbsp;&nbsp;&nbsp;;</code> is perfectly valid). IE8-10 are known to suffer from the bug that this hack relies upon.</p>
-      -->
+      <p><a href="https://drafts.csswg.org/css-syntax/#escaping">Backslash (<code>\</code>) is used as an escape character in CSS.</a> So <code>\9</code> is an escape sequence which encodes the <a href="https://en.wikipedia.org/wiki/Tab_character">tab character (U+0009).</a> Presumably the affected browsers are interpreting it like a literal tab character and thus ignoring it when parsing <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length">length values</a>, since whitespace between the value and the semicolon that ends a declaration doesn't matter in CSS (something like <code>width: 5px&nbsp;&nbsp;&nbsp;;</code> is perfectly valid). The space before the <code>\9</code> doesn't appear to affect its compatibility. IE8-10 are known to suffer from the bug that this hack relies upon.</p>
 
       <h2>Affected browsers</h2>
       <p>Check out the links for corroborating screenshots.</p>
